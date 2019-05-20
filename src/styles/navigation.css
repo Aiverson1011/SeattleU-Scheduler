@@ -1,0 +1,21 @@
+  
+  ul {
+    list-style-type: none;
+  }
+  
+  ul a{
+    border-bottom: 1px solid #088099;
+    display: block;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-break: 1.2em;
+    color: #000000;
+    padding: 2px;
+    padding-left: 0px;
+    margin-left: 0px;
+    font-size: 20px;
+  }
+  
+  ul a:hover{
+    color: #55B31B;
+  }

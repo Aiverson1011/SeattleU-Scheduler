@@ -1,0 +1,29 @@
+.courses{
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0 2em;
+    li{
+      padding: .5em;
+      cursor: grabbing;
+      &:hover{
+        background: #eee;
+      }
+
+    }
+    &.assigned{
+      background: #eee;
+      margin-top: 1em;
+      padding: .5em;
+    }
+
+  }
+  
+
+}
+
+#trash{
+  border: 1px solid red;
+  height: 100px;
+}
+
