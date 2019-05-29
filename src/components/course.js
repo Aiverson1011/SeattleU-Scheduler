@@ -1,10 +1,10 @@
 import React from "react";
 import Navigation from "../layout/navigation.js";
 import Header from "../layout/header.js";
-import { CourseContext } from "../context/index.js";
+import { UniversityContext } from "../context/index.js";
 
 class Course extends React.Component {
-  static contextType = CourseContext;
+  static contextType = UniversityContext;
   constructor(props) {
     super(props);
 
@@ -40,18 +40,17 @@ class Course extends React.Component {
   }
 
   filterCourses = () => {
-    console.log(this.state);
     var result = this.context.courses;
-    if ((this.state.searchTerm === "") && (this.state.classType == "" || this.state.classType == "all")) {
+    if ((this.state.searchTerm === "") && (this.state.classType === "" || this.state.classType === "all")) {
       result = result.filter(f => f.isActive === this.state.activeCourse);
     } else {
       if (this.state.searchTerm) {
         result = result.filter(f => (f.courseCode.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1) ||
-          (f.courseName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1));
+          (f.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1));
       }
-      console.log(this.state.classType);
       if (this.state.classType) {
-        result = result.filter(f => f.courseType == this.state.classType);
+        console.log(this.state.classType)
+        result = result.filter(f => f.courseType === parseInt(this.state.classType));
       }
       if (!this.state.activeCourse) {
         result = result.filter(f => f.isActive === this.state.activeCourse);
@@ -126,11 +125,11 @@ class Course extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.filterResult.map(post =>
+                  {this.state.filterResult.map(crs =>
                     <tr>
-                      <th scope="row" key={post.courseId}>{post.courseCode}</th>
-                      <td>{post.courseName} </td>
-                      <td>{post.courseType} </td>
+                      <th scope="row" key={crs.courseId}>{crs.courseCode}</th>
+                      <td>{crs.name} </td>
+                      <td>{crs.courseTypesId} </td>
                       <td><button type="button" className="btn btn-outline-primary">Edit</button>
                         <button type="button" className="btn btn-outline-danger">Delete</button></td>
                     </tr>

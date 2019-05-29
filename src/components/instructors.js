@@ -2,11 +2,11 @@ import React from "react";
 import "../styles/header.css";
 import Navigation from "../layout/navigation.js";
 import Header from "../layout/header.js";
-import { CourseContext } from "../context/index.js";
+import { UniversityContext } from "../context/index.js";
 
 class Instructors extends React.Component {
 
-    static contextType = CourseContext;
+    static contextType = UniversityContext;
     constructor(props) {
         super(props);
 
@@ -45,7 +45,7 @@ class Instructors extends React.Component {
     filterCourses = () => {
         var result = this.context.instructors;
         console.log("hello");
-        if ((this.state.searchTerm === "") && (this.state.instructorType == "" || this.state.instructorType == "all")) {
+        if ((this.state.searchTerm === "") && (this.state.instructorType === "" || this.state.instructorType === "all")) {
             result = result.filter(f => f.isActive === this.state.isActive);
         } else {
             if (this.state.searchTerm) {
@@ -53,7 +53,7 @@ class Instructors extends React.Component {
                     (f.lastName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1));
             }
             if (this.state.instructorType) {
-                result = result.filter(f => f.instructorType == this.state.instructorType);
+                result = result.filter(f => f.instructorType === parseInt(this.state.instructorType));
             }
             if (!this.state.isActive) {
                 result = result.filter(f => f.isActive === this.state.isActive);
@@ -132,11 +132,11 @@ class Instructors extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.filterResult.map(post =>
+                                    {this.state.filterResult.map(inst =>
                                         <tr>
-                                            <th scope="row" key={post.instructorId}>{post.firstName}</th>
-                                            <td>{post.lastName} </td>
-                                            <td>{post.instructorType} </td>
+                                            <th scope="row" key={inst.instructorId}>{inst.firstName}</th>
+                                            <td>{inst.lastName} </td>
+                                            <td>{inst.instructorType} </td>
                                             <td><button type="button" className="btn btn-outline-primary">Edit</button>
                                                 <button type="button" className="btn btn-outline-danger">Delete</button></td>
                                         </tr>

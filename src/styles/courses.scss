@@ -1,4 +1,10 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("/dashboard/fonts/Montserrat/Montserrat-Black.ttf");
+
+  }
 .courses{
+  position: fixed;
   ul{
     list-style-type: none;
     margin: 0;
@@ -15,8 +21,19 @@
       background: #eee;
       margin-top: 1em;
       padding: .5em;
+      background-color: blue;
     }
 
+
+  }
+  .filterList{
+    background-color: #f7f7f7;
+    height: 400px;
+    overflow: auto;
+  }
+
+  .headerr{
+    text-align: center;
   }
   
 
@@ -25,5 +42,14 @@
 #trash{
   border: 1px solid red;
   height: 100px;
+  background-color: #f4f4f4;
 }
 
+.courseTypes{
+  text-align: center;
+}
+
+.qtrSettings{
+  padding-top: 10px; 
+  text-align: center;
+}

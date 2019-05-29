@@ -7,7 +7,7 @@ class Dashboard extends React.Component {
       return (
         <>
     <nav className="navbar navbar-dark sticky-top flex-md-nowrap p-0 topBar">
-      <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Seattle University</a>
+      <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Seattle University</a>
     </nav>
 
     <div className="container-fluid">
@@ -25,9 +25,9 @@ class Dashboard extends React.Component {
             <div className="m-1 col-md-5 dashItem">
                 <span className="buttonText">Active Schedules</span>
                 <div>
-                    <a className="schedLink" href=""> Schedule 1 </a> 
-                    <a className="schedLink" href=""> Schedule 2 </a> 
-                    <a className="schedLink" href=""> Schedule 3</a>
+                    <a className="schedLink" href="/"> Schedule 1 </a> 
+                    <a className="schedLink" href="/"> Schedule 2 </a> 
+                    <a className="schedLink" href="/"> Schedule 3</a>
                 </div>
 
 
@@ -41,16 +41,16 @@ class Dashboard extends React.Component {
                 <div className="m-1 col-md-5 dashItem">
                     <span className="buttonText">Generate Reports</span>
                     <div>
-                        <a className="schedLink" href=""> Report 1</a>
-                        <a className="schedLink" href=""> Report 2</a>
-                        <a className="schedLink" href=""> Report 3</a>
+                        <a className="schedLink" href="/"> Report 1</a>
+                        <a className="schedLink" href="/"> Report 2</a>
+                        <a className="schedLink" href="/"> Report 3</a>
                     </div>
                   </div>
                   <div className="m-1 col-md-5 dashItem">
                       <span className="buttonText">Archived Schedules</span>
                       <div>
-                          <a className="schedLink" href=""> Schedule 1 </a> 
-                          <a className="schedLink" href=""> Schedule 2</a>
+                          <a className="schedLink" href="/"> Schedule 1 </a> 
+                          <a className="schedLink" href="/"> Schedule 2</a>
                       </div>
                  </div>
                 </div>
