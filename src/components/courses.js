@@ -7,11 +7,15 @@ import { UniversityContext } from "../context/index.js";
 
 class Courses extends React.Component {
   static contextType = UniversityContext;
+
+
   render() {
+    console.log("rendering....")
+    let courses = this.context.generateCoursesList();
     return (
 
       <aside className="courses">
-        <h2 className="headerr">2019-2020</h2>
+        <h2 className="headerr">{this.context.scheduleName}</h2>
         <div className="input-group mb-2">
           <div className="input-group-prepend">
             <div className="input-group-text">Filter</div>
@@ -39,7 +43,7 @@ class Courses extends React.Component {
 
         <div className="filterList">
           <ul>
-            {this.context.scheduleCourses.map((course, index) => (
+            {courses.map((course, index) => (
 
               <Draggable key={`course-${index}`} card={{ course }}>
                 <li>
@@ -58,7 +62,7 @@ class Courses extends React.Component {
         </div>
         <div className="qtrSettings row">
           <button type="button" className="btn btn-outline-success col-sm-6">Add Course</button>
-          <button type="button" className="btn btn-outline-danger col-sm-6">Validate Quarter</button>
+          <button type="button" onClick={this.context.saveSchedule} className="btn btn-outline-danger col-sm-6">Save</button>
         </div>
         <div className=""></div>
         <ul className="assigned">

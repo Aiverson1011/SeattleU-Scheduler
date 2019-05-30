@@ -20,10 +20,13 @@ class Course extends React.Component {
 
   }
 
-  componentDidMount(){
+  async componentDidMount() {
+    const done = await this.context.refreshCourses();
     this.setState({
       filterResult: this.context.courses
     })
+
+
   }
 
   handleChange(event) {
@@ -126,8 +129,8 @@ class Course extends React.Component {
                 </thead>
                 <tbody>
                   {this.state.filterResult.map(crs =>
-                    <tr>
-                      <th scope="row" key={crs.courseId}>{crs.courseCode}</th>
+                    <tr key={crs.id}>
+                      <th scope="row">{crs.courseCode}</th>
                       <td>{crs.name} </td>
                       <td>{crs.courseTypesId} </td>
                       <td><button type="button" className="btn btn-outline-primary">Edit</button>

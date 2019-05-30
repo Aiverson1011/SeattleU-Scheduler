@@ -20,19 +20,6 @@ class App extends React.Component {
     };
   }
 
-  saveSchedule = () => {
-    superagent
-      .post("https://demo8340031.mockable.io/schedule")
-      .send(this.state.schedule)
-      .then(data => {
-        let schedule = data.body.schedule;
-        this.setState({
-          schedule
-        });
-      });
-  };
-
-
 
   render() {
     return (
