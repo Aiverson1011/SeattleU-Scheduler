@@ -18,14 +18,12 @@ class UniversityContextProvider extends React.Component {
             handleDelete: this.handleDelete,
             generateCoursesList: this.generateCoursesList,
             saveSchedule: this.saveSchedule,
-            refreshCourses: this.refreshCourses
+            refreshCourses: this.refreshCourses,
+            validate: this.validate
 
         };
-
     }
     componentDidMount = async (props, state) => {
-
-        // read query from browser for scheduleID.
 
         let searchParams = new URLSearchParams(window.location.search)
         let schedulesId = searchParams.get("id") || 1;
@@ -37,7 +35,6 @@ class UniversityContextProvider extends React.Component {
         // yearly schedule
         const masterSchedule = await superagent.get("http://localhost:3000/blockSchedule").query({ schedulesId: schedulesId });
         let scheduleName = Object.keys(masterSchedule.body)[0] || "";
-        console.log(scheduleName)
         this.setState({
             quarters: masterSchedule.body[scheduleName].quarters,
             courses: courses.body,
@@ -53,8 +50,9 @@ class UniversityContextProvider extends React.Component {
     };
 
     addToSchedule = (entry) => {
-
+        
         let { course, day, time, activeQuarter, scheduleName } = entry;
+        // fromTimeslotMap.set(course.id, this.state.masterSchedule[scheduleName].quarters[activeQuarter].days[day].times[time].id);
         let assigned = [
             ...this.state.masterSchedule[scheduleName].quarters[activeQuarter].days[day].times[time].assigned, course
         ]
@@ -62,33 +60,47 @@ class UniversityContextProvider extends React.Component {
         scheduleCopy[scheduleName].quarters[activeQuarter].days[day].times[time].assigned = assigned;
 
         let masterSchedule = Object.assign({}, this.state.masterSchedule, scheduleCopy);
-        let item = {
-            scheduleItemsId: course.id,
-            scheduleitemsimeslotFrom: -1,
-            scheduleitemsimeslotTo: this.state.masterSchedule[scheduleName].quarters[activeQuarter].days[day].times[time].id,
-            scheduleItems: course
-        }
-
-        // post to save (call save item to save the single item)
-
-        this.setState({
-            masterSchedule, scheduleChanges: [...this.state.scheduleChanges, item]
+        let newCourse = JSON.stringify({
+            "scheduleItemsId": course.id,
+            "TimeslotsIdFrom": -1,
+            "TimeslotsIdTo": this.state.masterSchedule[scheduleName].quarters[activeQuarter].days[day].times[time].id,
         })
+
+        // "scheduleItems":{
+        //     "id": course.id,
+        //     "quarterSchedulesId": course.quarterSchedulesId,
+        //     "coursesId": course.coursesId,
+        //     "instructorsId": course.instructorsId,
+        //     "capacity": course.capacity,
+        //     "isMaster": course.isMaster,
+        //     "section": course.section,
+        // }
+
+        // post to save (call save item to save the 
+        this.setState({
+            masterSchedule,
+        })
+        this.saveSchedule(newCourse);
+
     }
 
-    saveSchedule = (e) => {
-        e.preventDefault();
-        console.log(this.state.scheduleChanges);
-        // post back to server
-        // superagent
-        // .post("https://demo8340031.mockable.io/schedule")
-        // .send(this.state.schedule)
-        // .then(data => {
-        //   let schedule = data.body.schedule;
-        //   this.setState({
-        //     schedule
-        //   });
-        // });
+    saveSchedule = (item) => {
+
+        superagent
+            .post("http://localhost:3000/calender/quarter")
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send(item) 
+            .then(data => {
+               console.log("I SAVED");
+            })
+    };
+
+    validate = async() =>
+    {
+        // getScheduleForWarning
+        const validation = await superagent.get("http://localhost:3000/getScheduleForWarning");
+
     }
 
     changeQuarter = async (activeQuarter) => {
@@ -109,6 +121,7 @@ class UniversityContextProvider extends React.Component {
     }
 
     refreshCourses = async () => {
+        // allows the ability to refresh the courses when adding to the courses set
         const courses = await superagent.get("http://localhost:3000/courses");
         this.setState({ courses: courses.body })
         return true;
@@ -149,14 +162,12 @@ class UniversityContextProvider extends React.Component {
         scheduleCopy[scheduleName].quarters[activeQuarter].days[day].times[time].assigned = assigned;
         let masterSchedule = Object.assign({}, this.state.maseterSchedule, scheduleCopy);
 
-        let item = {
-            scheduleItemsId: course.id,
-            scheduleitemsimeslotFrom: -1,
-            scheduleitemsimeslotTo: -1,
-            scheduleItems: course
-        }
-
-
+        let item = JSON.stringify({
+            "scheduleItemsId": course.id,
+            "TimeslotsIdFrom": this.state.masterSchedule[scheduleName].quarters[activeQuarter].days[day].times[time].id,
+            "TimeslotsIdTo": -1,
+        });
+        this.saveSchedule(item)
         this.setState({
             masterSchedule, assigned, scheduleChanges: [...this.state.scheduleChanges, item]
         }

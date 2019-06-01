@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/header.css";
-import Header from "../layout/header.js";
-import Navigation from "../layout/navigation.js";
+import "../../styles/header.css"
+import Header from "../../layout/header.js";
+import Navigation from "../../layout/navigation.js";
 
 class CreateInstructor extends React.Component {
     constructor(props) {
@@ -30,7 +30,6 @@ class CreateInstructor extends React.Component {
       handleChange(event) {
         const value = event.target.value;
         this.setState({ [event.target.name]: value });
-        console.log(this.state);
       } 
     
       handleSubmit(event) {
@@ -45,7 +44,6 @@ class CreateInstructor extends React.Component {
                 "isActive":this.state.isActive
             }
         )
-        console.log(result);  
       }
 
     render() {

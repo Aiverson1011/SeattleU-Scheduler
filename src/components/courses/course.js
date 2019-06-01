@@ -1,7 +1,10 @@
 import React from "react";
-import Navigation from "../layout/navigation.js";
-import Header from "../layout/header.js";
-import { UniversityContext } from "../context/index.js";
+import Navigation from "../../layout/navigation.js";
+import Header from "../../layout/header.js";
+import { UniversityContext } from "../../context/index.js";
+import { Link } from 'react-router-dom'
+import superagent from "superagent";
+
 
 class Course extends React.Component {
   static contextType = UniversityContext;
@@ -12,7 +15,7 @@ class Course extends React.Component {
       filterResult: [],
       searchTerm: "",
       classType: "",
-      activeCourse: true
+      activeCourse: true,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,13 +24,30 @@ class Course extends React.Component {
   }
 
   async componentDidMount() {
-    const done = await this.context.refreshCourses();
     this.setState({
       filterResult: this.context.courses
     })
 
 
   }
+
+  deleteCourse = (courseID) => {
+    if (!window.confirm("Are you sure?")) {
+      return;
+    }
+
+    superagent
+      .delete("http://localhost:3000/course/" + courseID)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(courseID)
+      .then(data => {
+        let didDelete = data.body;
+        const items = this.state.filterResult.filter(item => item.id !== courseID);
+        this.setState({ filterResult: items });
+      });
+
+  };
 
   handleChange(event) {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -52,7 +72,6 @@ class Course extends React.Component {
           (f.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) > -1));
       }
       if (this.state.classType) {
-        console.log(this.state.classType)
         result = result.filter(f => f.courseType === parseInt(this.state.classType));
       }
       if (!this.state.activeCourse) {
@@ -133,8 +152,8 @@ class Course extends React.Component {
                       <th scope="row">{crs.courseCode}</th>
                       <td>{crs.name} </td>
                       <td>{crs.courseTypesId} </td>
-                      <td><button type="button" className="btn btn-outline-primary">Edit</button>
-                        <button type="button" className="btn btn-outline-danger">Delete</button></td>
+                      <td><Link to={`/courses/update?cid=${crs.id}`} className="btn btn-outline-success">Edit</Link>
+                        <button onClick={() => this.deleteCourse(crs.id)} type="button" className="btn btn-outline-danger">Delete</button></td>
                     </tr>
                   )}
                 </tbody>

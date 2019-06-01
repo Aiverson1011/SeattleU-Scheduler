@@ -1,9 +1,9 @@
 import React from "react";
-import "../styles/header.css";
-import Header from "../layout/header.js";
-import Navigation from "../layout/navigation.js";
+import "../../styles/header.css";
+import Header from "../../layout/header.js";
+import Navigation from "../../layout/navigation.js";
 import superagent from "superagent";
-import { Route, Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 
 class CreateCourse extends React.Component {
     constructor(props) {
@@ -37,11 +37,9 @@ class CreateCourse extends React.Component {
             .post("http://localhost:3000/course")
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
-
             .send(result)
             .then(data => {
                 let courseID = data.body;
-                console.log("Course ID:", courseID);
                 this.setState({ created: true });
             });;
 
@@ -65,7 +63,6 @@ class CreateCourse extends React.Component {
                 "isActive": this.state.activeCourse
             }
         )
-        console.log(result);
         this.saveCourse(result);
 
 
@@ -133,7 +130,7 @@ class CreateCourse extends React.Component {
                                                     Graduate
                                         </label>
                                             </div>
-                                            <div className="form-check disabled">
+                                            <div className="form-check">
                                                 <input className="form-check-input" onChange={this.handleChange} type="radio" name="courseType" id="3" value="3" />
                                                 <label className="form-check-label" htmlFor="gridRadios3">
                                                     Certificate

@@ -4,13 +4,14 @@ import Dropzone from "../styles/dnd/dropzone.js";
 import Draggable from "../styles/dnd/draggable.js";
 import { UniversityContext } from "../context/index.js";
 
-
-
 class Scheduler extends React.Component {
   static contextType = UniversityContext;
 
   constructor(props) {
     super(props);
+    this.state = {
+      fromTimeslot: []
+    };
   }
 
   showCourseInfo = (course) => {
@@ -27,62 +28,79 @@ class Scheduler extends React.Component {
       }) || [];
     return (
       <>
-        <ul className={styles.qtrTab}>
-          {Object.keys(this.context.quarters).map((qtr, inx) => {
-            return <li onClick={() => this.context.changeQuarter(qtr)} key={inx}> {qtr}</li>
-          })}
-          <li>settings</li>
-        </ul>
-        <section className={styles.days}>
-          {calendarDays.map((day, inx) => {
-            let timesofDay = Object.keys(schedule[day].times).sort((a, b) => {
-              let timeslot = schedule[day].times
-              return (timeslot[a].id - timeslot[b].id);
-            }) || [];
-            return (
-              <div className={styles.dayOfWeek} key={inx}>
-                <h3 className={styles.dayText}>{day.toUpperCase()}</h3>
+        <div className="col-md-12">
 
-                {timesofDay.map((time, indx) => {
-                  return (
+          <ul className={styles.qtrTab}>
+            {Object.keys(this.context.quarters).map((qtr, inx) => {
+              return <li onClick={() => this.context.changeQuarter(qtr)} key={inx}> {qtr}</li>
+            })}
+            <li>settings</li>
+          </ul>
+          <section className={styles.days}>
+            {calendarDays.map((day, inx) => {
+              let timesofDay = Object.keys(schedule[day].times).sort((a, b) => {
+                let timeslot = schedule[day].times
+                return (timeslot[a].order - timeslot[b].order);
+              }) || [];
+              return (
+                <div className={styles.dayOfWeek} key={inx}>
+                  <h3 className={styles.dayText}>{day.toUpperCase()}</h3>
 
-                    <div className={styles.scheduleSlot} key={indx}>
-                      <h6 className={styles.times}>{time}</h6>
-                      <Dropzone
-                        handleDrop={({ course }) =>
-                          this.context.addToSchedule({ course, day, time, activeQuarter, scheduleName })
-                        }
-                      >
-                        <ul>
-                          {
-                            schedule &&
-                            schedule[day] &&
-                            schedule[day].times &&
-                            schedule[day].times[time] &&
-                            schedule[day].times[time].assigned &&
-                            schedule[day].times[time].assigned.map((course, idx) => (
-                              <Draggable key={idx} card={{ course, day, time, activeQuarter, scheduleName }}>
-                                <li onClick={() => this.showCourseInfo(course)}>
-                                  {
-                                    this.context.courses.filter((c) => c.id === course.coursesId).reduce((title, masterCourse, idx) => {
-                                      return parseInt(course.section) > 1
-                                        ? `${masterCourse.courseCode}-${course.section}`
-                                        : masterCourse.courseCode;
-                                    }, "")
+                  {timesofDay.map((time, indx) => {
+                    // let timeID = schedule[day].times[time];
+                    return (
 
-                                  }
-                                </li>
-                              </Draggable>
-                            ))}
-                        </ul>
-                      </Dropzone>
-                    </div>
-                  )
-                })}
-              </div>
-            )
-          })}
-        </section>
+
+                      <div className={styles.scheduleSlot} key={indx}>
+                        <h6 className={styles.times}>{time}</h6>
+                        <Dropzone
+                          handleDrop={({ course }) =>
+                            this.context.addToSchedule({ course, day, time, activeQuarter, scheduleName })
+                          }
+                        >
+                          <ul>
+
+                            {
+                              schedule &&
+                              schedule[day] &&
+                              schedule[day].times &&
+                              schedule[day].times[time] &&
+                              schedule[day].times[time].assigned &&
+                              schedule[day].times[time].assigned.map((course, idx) => (
+
+                                <Draggable key={idx} card={{ course, day, time, activeQuarter, scheduleName }}>
+                                    <li onClick={() => this.showCourseInfo(course)}>
+                                      {
+                                        this.context.courses.filter((c) => c.id === course.coursesId).reduce((title, masterCourse, idx) => {
+                                          return parseInt(course.section) > 1
+                                            ? `${masterCourse.courseCode}-${course.section}`
+                                            : masterCourse.courseCode;
+                                        }, "")
+                                      }
+                                      {
+                                        this.context.instructors.filter((c) => c.id === course.instructorsId).reduce((title, masterCourse, idx) => {
+                                          
+                                          return parseInt(course.instructorsId) > 0
+                                            ? `-${masterCourse.lastName}`
+                                            : `-${masterCourse.instructorsId}`;
+                                        }, "")
+
+
+                                      }
+
+                                    </li>
+                                </Draggable>
+                              ))}
+                          </ul>
+                        </Dropzone>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })}
+          </section>
+        </div>
       </>
     );
   }

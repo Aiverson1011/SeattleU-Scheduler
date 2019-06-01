@@ -40,11 +40,19 @@
 }
 
 #trash{
-  border: 1px solid red;
-  height: 100px;
-  background-color: #f4f4f4;
+  border: 2px solid black;
+  height: 50px;
+  opacity: 0.5;
+  width: 100%;
+  background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
+#trash:hover{
+  opacity: 0.8;
+  background-color: red;
+}
 .courseTypes{
   text-align: center;
 }

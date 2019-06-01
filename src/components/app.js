@@ -2,12 +2,8 @@ import React from "react";
 import Schedule from "./schedule.js";
 import Courses from "./courses.js";
 import styles from "../styles/app.module.scss";
-import superagent from "superagent";
 import Header from "../layout/header.js";
 import { UniversityContext } from "../context/index.js";
-
-
-
 
 class App extends React.Component {
   static contextType = UniversityContext;
@@ -27,11 +23,10 @@ class App extends React.Component {
         <Header />
         <div className="container-fluid">
           <div className="row">
-            <div className="col">
+            <div className="col-sm-2">
               <div className={styles.scheduler}>
                 <div className={styles.sideBar}>
                   <Courses
-                    assigned={this.state.assigned}
                     handleDelete={this.handleDelete}
                   />
                 </div>

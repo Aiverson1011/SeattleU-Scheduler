@@ -1,8 +1,8 @@
 import React from "react";
-import "../styles/header.css";
-import Navigation from "../layout/navigation.js";
-import Header from "../layout/header.js";
-import { UniversityContext } from "../context/index.js";
+import "../../styles/header.css";
+import Navigation from "../../layout/navigation.js";
+import Header from "../../layout/header.js";
+import { UniversityContext } from "../../context/index.js";
 
 class Instructors extends React.Component {
 
@@ -44,7 +44,6 @@ class Instructors extends React.Component {
 
     filterCourses = () => {
         var result = this.context.instructors;
-        console.log("hello");
         if ((this.state.searchTerm === "") && (this.state.instructorType === "" || this.state.instructorType === "all")) {
             result = result.filter(f => f.isActive === this.state.isActive);
         } else {
@@ -59,7 +58,6 @@ class Instructors extends React.Component {
                 result = result.filter(f => f.isActive === this.state.isActive);
             }
         }
-        console.log(result);
         this.setState({
             filterResult: result
         });
