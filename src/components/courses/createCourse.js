@@ -34,7 +34,7 @@ class CreateCourse extends React.Component {
 
     saveCourse = (result) => {
         superagent
-            .post("http://localhost:3000/course")
+            .post("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/course")
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(result)

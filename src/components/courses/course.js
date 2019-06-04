@@ -37,7 +37,7 @@ class Course extends React.Component {
     }
 
     superagent
-      .delete("http://localhost:3000/course/" + courseID)
+      .delete("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com/course/" + courseID)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .send(courseID)

@@ -27,7 +27,7 @@ class UpdateCourse extends React.Component {
         this.setState({ courseId: values.cid });
 
         const crs = await superagent
-            .get("http://localhost:3000/course/" + values.cid);
+            .get("http://http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/course/" + values.cid);
         let course = crs.body
         this.setState({
             courseId: this.state.courseId,
@@ -46,7 +46,7 @@ class UpdateCourse extends React.Component {
 
     saveCourse = (result) => {
         superagent
-            .put("http://localhost:3000/course/" + this.state.courseId)
+            .put("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/course/" + this.state.courseId)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(result)

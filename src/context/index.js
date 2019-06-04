@@ -29,11 +29,11 @@ class UniversityContextProvider extends React.Component {
         let schedulesId = searchParams.get("id") || 1;
 
         // ALL our courses
-        const courses = await superagent.get("http://localhost:3000/courses");
+        const courses = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/courses");
         // ALL our instructors
-        const instructors = await superagent.get("http://localhost:3000/selectAllInstructors");
+        const instructors = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/instructors");
         // yearly schedule
-        const masterSchedule = await superagent.get("http://localhost:3000/blockSchedule").query({ schedulesId: schedulesId });
+        const masterSchedule = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/blockSchedule").query({ schedulesId: schedulesId });
         let scheduleName = Object.keys(masterSchedule.body)[0] || "";
         this.setState({
             quarters: masterSchedule.body[scheduleName].quarters,
@@ -87,7 +87,7 @@ class UniversityContextProvider extends React.Component {
     saveSchedule = (item) => {
 
         superagent
-            .post("http://localhost:3000/calender/quarter")
+            .post("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/calender/quarter")
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(item) 
@@ -99,14 +99,14 @@ class UniversityContextProvider extends React.Component {
     validate = async() =>
     {
         // getScheduleForWarning
-        const validation = await superagent.get("http://localhost:3000/getScheduleForWarning");
+        const validation = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/getScheduleForWarning");
 
     }
 
     changeQuarter = async (activeQuarter) => {
 
         let qtrId = this.state.quarters[activeQuarter].id;
-        const result = await superagent.get("http://localhost:3000/selectScheduleItemsByQuarterSchedulesId")
+        const result = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/selectScheduleItemsByQuarterSchedulesId")
             .query({ quarterScheduleId: qtrId });
         // all of the assigned courses for the "active" quarter
         const quarterSchedule = this.state.quarters[activeQuarter].days
@@ -122,7 +122,7 @@ class UniversityContextProvider extends React.Component {
 
     refreshCourses = async () => {
         // allows the ability to refresh the courses when adding to the courses set
-        const courses = await superagent.get("http://localhost:3000/courses");
+        const courses = await superagent.get("http://ec2-34-221-227-30.us-west-2.compute.amazonaws.com:3000/courses");
         this.setState({ courses: courses.body })
         return true;
     }
