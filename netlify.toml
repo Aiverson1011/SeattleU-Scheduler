@@ -1,0 +1,4 @@
+[build]
+base = "schedulerfe/"
+publish = "schedulerfe/build/"
+command = "yarn build"
