@@ -1,0 +1,4 @@
+[build]
+base = "SeattleU-Scheuduler/"
+publish = "SeattleU-Scheuduler/build/"
+command = "npm run build"
