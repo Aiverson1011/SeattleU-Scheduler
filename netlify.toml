@@ -1,4 +1,0 @@
-[build]
-base = "schedulerfe/"
-publish = "schedulerfe/build/"
-command = "npm install build"
