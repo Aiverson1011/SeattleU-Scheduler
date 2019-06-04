@@ -1,6 +1,6 @@
 [build]
-base = "SeattleU-Scheuduler/"
-publish = "SeattleU-Scheuduler/build/"
+base = "SeattleU-Scheduler/"
+publish = "SeattleU-Scheduler/build/"
 command = "npm run build"
 
 [[redirects]]
