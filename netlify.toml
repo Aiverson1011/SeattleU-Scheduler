@@ -1,9 +1,1 @@
-[build]
-base = "SeattleU-Scheduler/"
-publish = "SeattleU-Scheduler/build/"
-command = "npm run build"
 
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
